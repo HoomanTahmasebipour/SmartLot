@@ -1,0 +1,495 @@
+`timescale 1ns / 1ns // `timescale time_unit/time_precision
+
+module SmartLot (SW, CLOCK_50, GPIO_0, GPIO_1, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_R, VGA_G, VGA_B);
+	
+	input	CLOCK_50;
+	input [9:0] SW;
+	output [0:6] HEX0;
+	output [0:6] HEX1;
+	output [0:6] HEX2;
+	output [0:6] HEX3;
+	output [0:6] HEX4;
+	output [0:6] HEX5;
+	output	VGA_CLK;
+	output	VGA_HS;
+	output	VGA_VS;
+	output	VGA_BLANK_N;
+	output	VGA_SYNC_N;
+	output	[7:0]	VGA_R;
+	output	[7:0]	VGA_G;
+	output	[7:0]	VGA_B;
+	
+	input wire [35:0] GPIO_0;
+	
+	output wire [35:0] GPIO_1;
+	
+	wire resetn;
+	assign resetn = SW[8];
+
+	wire [2:0] colouroriginal;
+	wire [2:0] colourfinal;
+	
+	wire [8:0] x;
+	wire [7:0] y;
+	wire writeEn;
+	wire [16:0] AddressOriginal;
+	wire [16:0] AddressFinal;
+	wire background;
+	
+	wire [3:0] cState;
+	wire [3:0] nState;
+	
+	wire resetCFinaln;
+	wire resetCOriginaln;
+	
+	wire originalEn;
+	wire finalEn;
+
+	wire echo;
+	wire trigger;
+	
+	assign echo = ~GPIO_0[0]; 
+ 	assign GPIO_1[0] = trigger; 
+
+	wire flag;
+	wire [3:0] distance_cm;
+	wire [3:0] distance_mm;
+
+	ranging_module r0 (.clk(CLOCK_50), 
+							 .echo(echoCORRECT), 
+							 .resetn(resetn),
+							 .trig(trigger),
+							 .flag(flag),
+							 .distance_cm(distance_cm),
+							 .distance_mm(distance_mm));
+	
+	//reg echoCORRECT;
+	always @(posedge CLOCK_50) begin
+		if (!resetn) echoCORRECT <= 1'd0;
+		else if (trigger == 1'd0) echoCORRECT <= echo;
+		else echoCORRECT <= echoCORRECT;
+	end
+	
+	vga_adapter VGA(
+			.resetn(resetn),
+			.clock(CLOCK_50),
+			.colour(background? colourfinal: colouroriginal),
+			.x(x),
+			.y(y),
+			.plot(flag? writeEn : 0),
+			/* Signals for the DAC to drive the monitor. */
+			.VGA_R(VGA_R),
+			.VGA_G(VGA_G),
+			.VGA_B(VGA_B),
+			.VGA_HS(VGA_HS),
+			.VGA_VS(VGA_VS),
+			.VGA_BLANK(VGA_BLANK_N),
+			.VGA_SYNC(VGA_SYNC_N),
+			.VGA_CLK(VGA_CLK));
+		defparam VGA.RESOLUTION = "320x240";
+		defparam VGA.MONOCHROME = "FALSE";
+		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
+		defparam VGA.BACKGROUND_IMAGE = "SmartLot_bckgrn_HD.mif";
+			
+	//RAMORIGINAL
+	SmartLot_bckgrn_HD SBH1	(
+		.address(AddressOriginal),
+		.clock(CLOCK_50),
+		.data(3'b111),
+		.wren(1'b0),
+		.q(colouroriginal[2:0]));
+		
+		
+	//RAMFINAL
+	SmartLot_bckgrn_two_HD SBTH1 (
+		.address(AddressFinal),
+		.clock(CLOCK_50),
+		.data(3'b111),
+		.wren(1'b0),
+		.q(colourfinal[2:0]));
+		
+	control C0 (.clk(CLOCK_50), 
+				.resetn(resetn), 
+				.echo(echoCORRECT), 
+				.fullCountFinal(AddressFinal), 
+				.fullCountOriginal(AddressOriginal), 
+				.resetCounterFinalN(resetCFinaln), 		
+				.resetCounterOriginalN(resetCOriginaln),
+				.counterEnOriginal(originalEn),
+				.counterEnFinal(finalEn),
+				.plot(writeEn),
+				.background(background),
+				.current_state(cState), 
+				.next_state(nState));
+		
+	datapath D0 (.clk(CLOCK_50), 
+				.resetn(resetn), 
+				.counterEnOriginal(originalEn), 
+				.counterEnFinal(finalEn), 
+				.resetCounterOriginalN(resetCOriginaln), 
+				.resetCounterFinalN(resetCFinaln), 
+				.x(x), 
+				.y(y),
+				.AddressOriginal(AddressOriginal),
+				.AddressFinal(AddressFinal));
+		
+		
+	seg7 C({1'b0,cState[2:0]},HEX0[0:6]);
+	seg7 N({1'b0,nState[2:0]},HEX1[0:6]);	
+	
+	seg7 MM(distance_mm, HEX4[0:6]);
+	seg7 CM(distance_cm, HEX5[0:6]);
+
+
+
+
+endmodule
+		
+
+module control (clk, resetn, echo, fullCountFinal, fullCountOriginal, resetCounterFinalN, 
+						resetCounterOriginalN, counterEnOriginal, counterEnFinal, plot, background, 
+						current_state, next_state);
+	input clk;
+	input resetn;
+	input echo;
+	input [16:0] fullCountFinal;
+	input [16:0] fullCountOriginal;
+	
+	output reg resetCounterFinalN;
+	output reg resetCounterOriginalN;
+	output reg counterEnOriginal;
+	output reg counterEnFinal;
+	output reg plot;
+	output reg background;
+	
+	output reg [3:0] current_state;
+	output reg [3:0] next_state;
+
+	localparam 
+		START	 				= 4'd0,
+		READ_FINAL			= 4'd1,
+		WRITE_FINAL			= 4'd2,
+		FINAL_COUNT			= 4'd3,
+		FINAL_WAIT			= 4'd4,
+		READ_ORIGINAL		= 4'd5,
+		WRITE_ORIGINAL		= 4'd6,
+		ORIGINAL_COUNT		= 4'd7;
+		
+	always @(*)
+	begin: state_table
+		case (current_state)
+			START: next_state = echo? READ_FINAL : START;
+			READ_FINAL: next_state = WRITE_FINAL;
+			WRITE_FINAL: next_state = (fullCountFinal[16:0] == 17'd76800) ? FINAL_WAIT : FINAL_COUNT;
+			FINAL_COUNT: next_state = echo ? READ_FINAL : READ_ORIGINAL;
+			FINAL_WAIT: next_state = echo ? FINAL_WAIT : READ_ORIGINAL;
+			READ_ORIGINAL: next_state = WRITE_ORIGINAL;
+			WRITE_ORIGINAL: next_state = (fullCountOriginal[16:0] == 17'd76800) ? START : ORIGINAL_COUNT;
+			ORIGINAL_COUNT: next_state = echo ? READ_FINAL : READ_ORIGINAL;
+			default: next_state = START;
+		endcase
+	end // state table
+	
+	//Output logic, datapath control signals
+	always @(*)
+	begin: enable_signals
+	
+		// by default make all of them 0
+		counterEnOriginal = 1'b0;
+		counterEnFinal = 1'b0;
+		plot = 1'b0;
+		background = 1'b0;
+		resetCounterFinalN = 1'b1;
+		resetCounterOriginalN = 1'b1;
+		
+		case (current_state) 
+			START: begin
+				resetCounterOriginalN = 1'b0;
+				resetCounterFinalN = 1'b0;	
+			end
+			READ_FINAL: begin
+			  background = 1'b1;
+			  //resetCounterOriginalN = 1'b0;
+			end
+			WRITE_FINAL: begin
+			  background = 1'b1;
+			  plot = 1'b1;
+			end
+			FINAL_COUNT: begin
+			  background = 1'b1;
+			  counterEnFinal = 1'b1;
+			end
+			FINAL_WAIT: begin
+			  background = 1'b1;
+			  resetCounterFinalN = 1'b0;
+			end
+			READ_ORIGINAL: begin
+			  //background is by default 0
+			  //resetCounterFinalN = 1'b0;
+			end
+			WRITE_ORIGINAL: begin
+			  plot = 1'b1;
+			end
+			ORIGINAL_COUNT: begin
+			  counterEnOriginal = 1'b1;
+			end  		
+		endcase
+	end //enable signals
+
+	//current_state registers
+	always @(posedge clk)
+	begin: state_FFs
+		if (!resetn)
+			current_state <= START;
+		else 
+			current_state <= next_state;
+	end // state_FFs
+	
+	
+endmodule	
+	
+module datapath (clk, resetn, counterEnOriginal, counterEnFinal, resetCounterOriginalN, resetCounterFinalN, x, y, AddressOriginal, AddressFinal);
+	input clk;
+	input resetn;
+	input counterEnOriginal;
+	input counterEnFinal;
+	input resetCounterOriginalN;
+	input resetCounterFinalN;
+	
+	output reg [8:0] x;
+	output reg [7:0] y;
+
+	output [16:0] AddressOriginal;
+	output [16:0] AddressFinal;
+	
+	wire [16:0] XYcountORIG;
+	wire [16:0] XYcountFINAL;
+
+	counter_14bit_address countOriginal   (.Enable(counterEnOriginal),
+														.resetn(resetCounterOriginalN),
+														.clk(clk),
+														.count(AddressOriginal));
+			
+	counter_14bit_address countFinal   	(.Enable(counterEnFinal),
+													 .resetn(resetCounterFinalN),
+													 .clk(clk),
+													 .count(AddressFinal));
+													 
+	counter_14bit_coordinate	xANDyORIG  (.Enable(counterEnOriginal),
+														.resetn(resetCounterOriginalN),
+														.clk(clk),
+														.count(XYcountORIG));	
+	
+	counter_14bit_coordinate	xANDyFINAL  (.Enable(counterEnFinal),
+														 .resetn(resetCounterFinalN),
+														 .clk(clk),
+														 .count(XYcountFINAL));	
+
+
+	always @(posedge clk) begin
+		if (!resetn) begin
+		   x <= 9'd0;
+		   y <= 8'd0;
+		end
+		else begin
+		   if (!resetCounterOriginalN || !resetCounterFinalN) begin
+				x[8:0] <= 9'd0;
+				y[7:0] <= 8'd0;
+		   end
+		   else if (counterEnOriginal) begin
+				x <= XYcountORIG[8:0];
+				y <= XYcountORIG[16:9];
+		   end
+			else if (counterEnFinal) begin
+				x <= XYcountFINAL[8:0];
+				y <= XYcountFINAL[16:9];
+		   end
+		end
+	end
+	
+endmodule	
+
+module ranging_module( 
+ 	input wire clk, 
+ 	input wire echo, 
+ 	input wire resetn, 
+ 
+ 
+ 	output reg trig, 
+ 	output wire flag, 
+ 	output wire [3:0] distance_cm,
+	output wire [3:0] distance_mm
+ ); 
+ 
+ reg [23:0] period_cnt;
+ wire period_cnt_full;
+
+ 
+ always @(posedge clk) 
+ 		begin 
+ 			if (!resetn) 
+ 				period_cnt <= 0; 
+ 			else 
+ 				begin 
+ 					if (period_cnt_full) 
+ 						period_cnt <= 0; 
+ 					else 
+ 						period_cnt <= period_cnt + 1; 
+ 				end 
+ 		end 
+
+ assign period_cnt_full = (period_cnt == 5000000);
+ 
+ always @(posedge clk) 
+ 		begin 
+ 			if (!resetn) 
+ 				trig <= 0; 
+ 			else 
+ 				trig <= ( period_cnt > 100 && period_cnt < 5100); 
+ 		end 
+		
+// Numbers are based on a fromula given for this sensor.
+// distance in cm = (echo_length * 0.02) / (58). 
+// This always block sets the 		
+ reg [15:0] echo_length; // changed from 12 bit number
+ always @(posedge clk) begin
+	if (!resetn)
+		echo_length <= 16'd0;
+	else if (trig) // When trigger is on we are measuring a new distance, so we reset our echo_length
+		echo_length[15:0] <= 16'd0;
+	else if (echo) begin
+		if (echo_length[15:12] == 4'd11) // we have reached our maximum cm distance (10), so we will show 0
+			echo_length[15:12] <= 4'd11; //we want this to loop once we go over 10 cm, this number gets reset when trigger is 1
+		if (echo_length[11:0] == 12'd2900) begin // we have reached our maximum mm distance, so we will increment our cm distance by 1 while reseting our mm distance
+			echo_length[11:0] <= 12'd0;
+			echo_length[15:12] <= echo_length[15:12] + 1'd1;
+		end
+		else // we have not yet reached our maximum mm distance (10), so we will continue incrementing mm while keeping cm constant
+			echo_length[11:0] <= echo_length[11:0] + 1'd1;
+	end
+	else // not sensing anything, so echo_length will be set to zero
+		echo_length[15:0] <= 16'd0;
+
+end 
+
+// CENTIMETER DISTANCE CALC
+	reg [3:0] distance_temp_cm;
+	always @(posedge clk) begin
+		if (!resetn)
+			distance_temp_cm <= 4'd0;
+		else begin
+			if (trig)
+				distance_temp_cm <= 4'd0;
+			else 
+				distance_temp_cm <= echo_length[15:12];
+		end
+	end
+
+ // MILLIMETER DISTANCE CALC
+	reg [3:0] distance_temp_mm;
+	always @(posedge clk) begin
+		if (!resetn)
+				distance_temp_mm <= 4'd0;
+		else begin
+			if (trig)
+				distance_temp_mm <= 4'd0;
+			else if (echo_length[11:0] >= 12'd0 && echo_length[11:0] < 12'd290)
+				distance_temp_mm <= 4'd0;
+			else if (echo_length[11:0] >= 12'd290 && echo_length[11:0] < 12'd580)
+				distance_temp_mm <= 4'd1;
+			else if (echo_length[11:0] >= 12'd580 && echo_length[11:0] < 12'd870)
+				distance_temp_mm <= 4'd2;
+			else if (echo_length[11:0] >= 12'd870 && echo_length[11:0] < 12'd1160)
+				distance_temp_mm <= 4'd3;
+			else if (echo_length[11:0] >= 12'd1160 && echo_length[11:0] < 12'd1450)
+				distance_temp_mm <= 4'd4;
+			else if (echo_length[11:0] >= 12'd1450 && echo_length[11:0] < 12'd1740)
+				distance_temp_mm <= 4'd5;
+			else if (echo_length[11:0] >= 12'd1740 && echo_length[11:0] < 12'd2030)
+				distance_temp_mm <= 4'd6;
+			else if (echo_length[11:0] >= 12'd2030 && echo_length[11:0] < 12'd2320)
+				distance_temp_mm <= 4'd7;
+			else if (echo_length[11:0] >= 12'd2320 && echo_length[11:0] < 12'd2610)
+				distance_temp_mm <= 4'd8;
+			else if (echo_length[11:0] >= 12'd2610 && echo_length[11:0] < 12'd2900)
+				distance_temp_mm <= 4'd9;	
+			else 
+				distance_temp_mm <= 4'd0;
+		end
+	end
+	
+	assign distance_cm = distance_temp_cm;
+	assign distance_mm = distance_temp_mm;
+	
+	assign flag = (distance_cm == 4'd11) ? 1'b0 : 1'b1;
+		
+endmodule
+
+module counter_14bit_address (Enable, resetn, clk, count);
+	input Enable;
+	input clk;
+	input resetn;
+	output reg [16:0] count;
+
+	always @ (posedge clk) begin
+	   if (resetn == 1'b0) 
+			count <= 17'd0;
+	   
+	   else if (Enable) begin
+			if (count[16:0] == 17'd76800) 
+				count <= 17'd0;
+			else
+				count <= count + 1'b1;
+		end
+	end
+endmodule
+
+module counter_14bit_coordinate (Enable, resetn, clk, count);
+	input Enable;
+	input clk;
+	input resetn;
+	output reg [16:0] count;
+
+	always @ (posedge clk) begin
+	   if (resetn == 1'b0) 
+			count <= 17'd0;
+	   
+	   else if (Enable) begin
+			if (count[16:9] == 8'd239) 
+				count <= 17'd0;
+			else if (count[8:0] == 9'd319) begin
+				count[8:0] <= 9'd0;
+				count[16:9] <= count[16:9] + 1'b1;
+			end
+			else
+				count[8:0] <= count[8:0] + 1'b1;
+		end // if statement
+	end // always block
+endmodule
+
+module seg7(c,led);
+	input [3:0] c;
+	output reg [0:6] led;
+	
+	always@(*) begin 
+		case (c)
+			0: led= 7'b0000001;
+			1: led= 7'b1001111;
+			2: led= 7'b0010010;
+			3: led= 7'b0000110;
+			4: led= 7'b1001100;
+			5: led= 7'b0100100;
+			6: led= 7'b0100000;
+			7: led= 7'b0001111;
+			8: led= 7'b0000000;
+			9: led= 7'b0000100;
+			10: led= 7'b0001000;	
+			11: led= 7'b1100000;
+			12: led= 7'b0110001;
+			13: led= 7'b1000010;
+			14: led= 7'b0110000;
+			15: led= 7'b0111000;
+			default: led=7'bx;
+		endcase
+	end
+endmodule 	

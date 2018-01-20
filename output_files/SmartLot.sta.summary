@@ -1,0 +1,229 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -6.235
+TNS   : -284.524
+
+Type  : Slow 1100mV 85C Model Setup 'CLOCK_50'
+Slack : -4.296
+TNS   : -4.296
+
+Type  : Slow 1100mV 85C Model Setup 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 30.884
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'CLOCK_50'
+Slack : 0.345
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.427
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.441
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Recovery 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -6.303
+TNS   : -196.713
+
+Type  : Slow 1100mV 85C Model Recovery 'CLOCK_50'
+Slack : 15.619
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Removal 'CLOCK_50'
+Slack : 1.815
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Removal 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 3.915
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -0.394
+TNS   : -37.826
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]'
+Slack : 1.666
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
+Slack : 8.823
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 18.781
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Setup 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -6.318
+TNS   : -286.589
+
+Type  : Slow 1100mV 0C Model Setup 'CLOCK_50'
+Slack : -4.103
+TNS   : -4.103
+
+Type  : Slow 1100mV 0C Model Setup 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 31.222
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'CLOCK_50'
+Slack : 0.344
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.418
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.456
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Recovery 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -6.415
+TNS   : -200.970
+
+Type  : Slow 1100mV 0C Model Recovery 'CLOCK_50'
+Slack : 15.381
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Removal 'CLOCK_50'
+Slack : 1.823
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Removal 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 3.998
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -0.394
+TNS   : -37.268
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]'
+Slack : 1.666
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
+Slack : 8.784
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 18.759
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Setup 'CLOCK_50'
+Slack : -3.396
+TNS   : -3.396
+
+Type  : Fast 1100mV 85C Model Setup 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -3.200
+TNS   : -139.902
+
+Type  : Fast 1100mV 85C Model Setup 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 33.287
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.163
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50'
+Slack : 0.181
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.245
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -3.266
+TNS   : -100.505
+
+Type  : Fast 1100mV 85C Model Recovery 'CLOCK_50'
+Slack : 17.377
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Removal 'CLOCK_50'
+Slack : 1.062
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Removal 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 2.097
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.031
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]'
+Slack : 1.666
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
+Slack : 8.822
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 18.890
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Setup 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -3.082
+TNS   : -132.077
+
+Type  : Fast 1100mV 0C Model Setup 'CLOCK_50'
+Slack : -2.835
+TNS   : -2.835
+
+Type  : Fast 1100mV 0C Model Setup 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 34.141
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.147
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'CLOCK_50'
+Slack : 0.170
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.221
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : -3.143
+TNS   : -97.365
+
+Type  : Fast 1100mV 0C Model Recovery 'CLOCK_50'
+Slack : 17.401
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Removal 'CLOCK_50'
+Slack : 0.977
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Removal 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 2.059
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'DE1_SoC_Audio:Audio|avconf:avc|mI2C_CTRL_CLK'
+Slack : 0.054
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]'
+Slack : 1.666
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
+Slack : 8.817
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'VGA|mypll|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk'
+Slack : 18.888
+TNS   : 0.000
+
+------------------------------------------------------------

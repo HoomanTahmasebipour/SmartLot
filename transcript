@@ -1,0 +1,222 @@
+do SmartLot.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:55:59 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot.v 
+# -- Compiling module SmartLot
+# ** Error: SmartLot.v(49): (vlog-2730) Undefined variable: 'trigger'.
+# ** Error (suppressible): SmartLot.v(63): (vlog-2388) 'echoCORRECT' already declared in this scope (SmartLot).
+# -- Compiling module control
+# -- Compiling module datapath
+# -- Compiling module ranging_module
+# -- Compiling module counter_14bit_address
+# -- Compiling module counter_14bit_coordinate
+# -- Compiling module seg7
+# End time: 13:56:00 on Nov 26,2017, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 0
+# ** Error: C:/Altera/intelFPGA/17.0/modelsim_ase/win32aloem/vlog failed.
+# Error in macro ./SmartLot.do line 6
+# C:/Altera/intelFPGA/17.0/modelsim_ase/win32aloem/vlog failed.
+#     while executing
+# "vlog SmartLot.v"
+do SmartLot.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:56:53 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot.v 
+# -- Compiling module SmartLot
+# ** Error (suppressible): SmartLot.v(66): (vlog-2388) 'echoCORRECT' already declared in this scope (SmartLot).
+# -- Compiling module control
+# -- Compiling module datapath
+# -- Compiling module ranging_module
+# -- Compiling module counter_14bit_address
+# -- Compiling module counter_14bit_coordinate
+# -- Compiling module seg7
+# End time: 13:56:53 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: C:/Altera/intelFPGA/17.0/modelsim_ase/win32aloem/vlog failed.
+# Error in macro ./SmartLot.do line 6
+# C:/Altera/intelFPGA/17.0/modelsim_ase/win32aloem/vlog failed.
+#     while executing
+# "vlog SmartLot.v"
+do SmartLot.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:58:27 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot.v 
+# -- Compiling module SmartLot
+# -- Compiling module control
+# -- Compiling module datapath
+# -- Compiling module ranging_module
+# -- Compiling module counter_14bit_address
+# -- Compiling module counter_14bit_coordinate
+# -- Compiling module seg7
+# 
+# Top level modules:
+# 	SmartLot
+# End time: 13:58:27 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:58:27 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_HD.v 
+# -- Compiling module SmartLot_bckgrn_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_HD
+# End time: 13:58:27 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:58:27 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_two_HD.v 
+# -- Compiling module SmartLot_bckgrn_two_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_two_HD
+# End time: 13:58:27 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -L altera_mf_ver SmartLot 
+# Start time: 13:58:27 on Nov 26,2017
+# Loading work.SmartLot
+# Loading work.ranging_module
+# Loading work.SmartLot_bckgrn_HD
+# Loading altera_mf_ver.altsyncram
+# Loading work.SmartLot_bckgrn_two_HD
+# Loading work.control
+# Loading work.datapath
+# Loading work.counter_14bit_address
+# Loading work.counter_14bit_coordinate
+# Loading work.seg7
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tahmase6  Hostname: BA3135WS03  ProcessID: 4240
+#           Attempting to use alternate WLF file "./wlftiv0c9x".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftiv0c9x
+# ** Error: invalid command name "SW[8]"
+# Error in macro ./SmartLot.do line 27
+# invalid command name "SW[8]"
+#     while executing
+# "{SW[8]} 1"
+do SmartLot.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:03:11 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot.v 
+# -- Compiling module SmartLot
+# -- Compiling module control
+# -- Compiling module datapath
+# -- Compiling module ranging_module
+# -- Compiling module counter_14bit_address
+# -- Compiling module counter_14bit_coordinate
+# -- Compiling module seg7
+# 
+# Top level modules:
+# 	SmartLot
+# End time: 14:03:11 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:03:11 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_HD.v 
+# -- Compiling module SmartLot_bckgrn_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_HD
+# End time: 14:03:11 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:03:11 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_two_HD.v 
+# -- Compiling module SmartLot_bckgrn_two_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_two_HD
+# End time: 14:03:11 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 14:03:12 on Nov 26,2017, Elapsed time: 0:04:45
+# Errors: 3, Warnings: 2
+# vsim -L altera_mf_ver SmartLot 
+# Start time: 14:03:12 on Nov 26,2017
+# Loading work.SmartLot
+# Loading work.ranging_module
+# Loading work.SmartLot_bckgrn_HD
+# Loading altera_mf_ver.altsyncram
+# Loading work.SmartLot_bckgrn_two_HD
+# Loading work.control
+# Loading work.datapath
+# Loading work.counter_14bit_address
+# Loading work.counter_14bit_coordinate
+# Loading work.seg7
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tahmase6  Hostname: BA3135WS03  ProcessID: 4240
+#           Attempting to use alternate WLF file "./wlftrjk659".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftrjk659
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint sim:/SmartLot/r0/*
+do SmartLot.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:10:49 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot.v 
+# -- Compiling module SmartLot
+# -- Compiling module control
+# -- Compiling module datapath
+# -- Compiling module ranging_module
+# -- Compiling module counter_14bit_address
+# -- Compiling module counter_14bit_coordinate
+# -- Compiling module seg7
+# 
+# Top level modules:
+# 	SmartLot
+# End time: 14:10:49 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:10:49 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_HD.v 
+# -- Compiling module SmartLot_bckgrn_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_HD
+# End time: 14:10:49 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:10:49 on Nov 26,2017
+# vlog -reportprogress 300 SmartLot_bckgrn_two_HD.v 
+# -- Compiling module SmartLot_bckgrn_two_HD
+# 
+# Top level modules:
+# 	SmartLot_bckgrn_two_HD
+# End time: 14:10:49 on Nov 26,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 14:10:50 on Nov 26,2017, Elapsed time: 0:07:38
+# Errors: 0, Warnings: 3
+# vsim -L altera_mf_ver SmartLot 
+# Start time: 14:10:50 on Nov 26,2017
+# Loading work.SmartLot
+# Loading work.ranging_module
+# Loading work.SmartLot_bckgrn_HD
+# Loading altera_mf_ver.altsyncram
+# Loading work.SmartLot_bckgrn_two_HD
+# Loading work.control
+# Loading work.datapath
+# Loading work.counter_14bit_address
+# Loading work.counter_14bit_coordinate
+# Loading work.seg7
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tahmase6  Hostname: BA3135WS03  ProcessID: 4240
+#           Attempting to use alternate WLF file "./wlft4ewea6".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft4ewea6
+add wave -position insertpoint sim:/SmartLot/r0/*
+# Break key hit
+# Break in Module altsyncram_body at /build/swbuild/SJ/nightly/17.0std/595/l64/work/modelsim/eda/sim_lib/altera_mf.v line 49586
+# End time: 14:22:48 on Nov 26,2017, Elapsed time: 0:11:58
+# Errors: 0, Warnings: 2
